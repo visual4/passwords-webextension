@@ -19,7 +19,7 @@ export default class LegacyApi {
     }
 
     login(endpoint, user = null, password = null) {
-        this._endpoint = endpoint + '/index.php/apps/passwords/api/0.1/passwords';
+        this._endpoint = endpoint + '/api.php/data/v4Zugangsdaten';
 
         this._headers = {};
         if (user !== null && password !== null) {
@@ -80,12 +80,15 @@ export default class LegacyApi {
         }
         headers.append('Accept', 'application/' + dataType + ', text/plain, */*');
 
+        let params = '?fields[]=username&fields[]=server&fields[]=password&fields[]=type&fields[]=description';
+
         if (data && method === 'GET') method = 'POST';
         let options = {
             method : method,
             headers: headers
         };
-        if (data) options.body = JSON.stringify(data);
+        if (data) options.body = JSON.stringify({'data': data});
+        if (method === 'GET') path += params;
         let request = new Request(
             this._endpoint + path,
             options

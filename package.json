@@ -4,6 +4,7 @@
     "description": "A simple client for the Nextcloud Passwords app",
     "private": true,
     "scripts": {
+        "serve": "webpack-dev-server --env.production=0 --progress --colors --watch",
         "watch": "webpack --env.production=0 --progress --colors --watch",
         "watch-edge": "build=edge webpack --env.production=0 --progress --colors --watch",
         "watch-opera": "build=opera webpack --env.production=0 --progress --colors --watch",

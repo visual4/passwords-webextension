@@ -53,46 +53,28 @@ class Api {
 
     reloadPasswords() {
         return new Promise((resolve, reject) => {
-            this._api.listPasswords().then((data) => {
-
+            this._api.listPasswords().then((rawData) => {
+                let data = rawData.records;
+                console.log(data);
                 let passwords = [];
                 for(let i in data) {
                     if(!data.hasOwnProperty(i) || data[i].deleted) continue;
-                    let d    = null,
-                        p    = data[i],
-                        prop = null;
+                    let p    = data[i];
 
-                    try {
-                        d = JSON.parse(p.properties);
-                    } catch(e) {
-                        try {
-                            d = JSON.parse('{' + Api.escapeJson(p.properties) + '}');
-                        } catch(e) {
-                            try {
-                                prop = Api.advancedEscapeJson('{' + Api.escapeJson(p.properties) + '}');
-                                d = JSON.parse(prop);
-                            } catch(e) {
-                                console.error('Parse Properties Failed', e, p, prop);
-                                Api.passwordEncodingFailedNotification(p.id);
-                                continue;
-                            }
-                        }
-                    }
 
-                    let host = p.website;
-                    if(d.address && d.address !== 'undefined') {
-                        host = Utility.analyzeUrl(d.address, 'hostname');
-                    }
+
+                    let host = p.server;
+
 
                     passwords.push(
                         {
                             id      : p.id,
-                            title   : d.loginname,
+                            title   : p.username,
                             host    : host,
-                            user    : d.loginname,
-                            password: p.pass,
-                            notes   : d.notes,
-                            category: d.category
+                            user    : p.username,
+                            password: p.password,
+                            notes   : p.description,
+                            category: p.type
                         }
                     );
                 }

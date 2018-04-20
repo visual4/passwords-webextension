@@ -4,7 +4,7 @@
             <label for="settings-url">
                 <translate>Url</translate>
             </label>
-            <input id="settings-url" type="text" :value="url" placeholder="https://nextcloud.example.com">
+            <input id="settings-url" type="text" :value="url" placeholder="https://demo.1crm.de">
         </div>
         <div>
             <label for="settings-user">
